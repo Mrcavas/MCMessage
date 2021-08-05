@@ -22,9 +22,6 @@
     ],
     "client": [
       "me.mrcavas.mcmessage.MainClient"
-    ],
-    "server": [
-      "me.mrcavas.mcmessage.MainServer"
     ]
   },
   "mixins": [

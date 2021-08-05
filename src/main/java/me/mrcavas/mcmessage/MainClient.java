@@ -1,8 +1,7 @@
 package me.mrcavas.mcmessage;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
+import org.json.JSONException;
+import org.json.JSONObject;
 import io.netty.buffer.Unpooled;
 import me.mrcavas.mcmessage.gui.TestScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,7 +11,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -41,8 +39,9 @@ public class MainClient implements ClientModInitializer {
             ClientPlayNetworking.send(new Identifier("mcmessage", "ok"), new PacketByteBuf(Unpooled.copiedBuffer("ok".getBytes(StandardCharsets.UTF_8))));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "ok_answ"), (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "ok"), (client, handler, buf, responseSender) -> {
             String message = buf.toString(StandardCharsets.UTF_8);
+            client.player.sendChatMessage(message);
             Database.setServerUUID(UUID.fromString(message));
         });
 
@@ -50,13 +49,13 @@ public class MainClient implements ClientModInitializer {
             String message = buf.toString(StandardCharsets.UTF_8);
 
             try {
-                JsonObject obj = new JsonParser().parse(message).getAsJsonObject();
+                JSONObject obj = new JSONObject(message);
 
                 client.execute(() -> {
-                    new Renderer().drawNotification(obj.get("message").getAsString(), 200, obj.get("from").getAsString());
-                    Database.addMessage(obj.get("from").getAsString(), obj.get("message").getAsString(), false);
+                    new Renderer().drawNotification(obj.getString("message"), 200, obj.getString("from"));
+                    Database.addMessage(obj.getString("from"), obj.getString("message"), false);
                 });
-            } catch (JsonParseException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
@@ -65,12 +64,12 @@ public class MainClient implements ClientModInitializer {
             String message = buf.toString(StandardCharsets.UTF_8);
 
             try {
-                JsonObject obj = new JsonParser().parse(message).getAsJsonObject();
+                JSONObject obj = new JSONObject(message);
 
                 client.execute(() -> {
-                    Database.addMessage(obj.get("to").getAsString(), obj.get("message").getAsString(), true);
+                    Database.addMessage(obj.getString("to"), obj.getString("message"), true);
                 });
-            } catch (JsonParseException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         });

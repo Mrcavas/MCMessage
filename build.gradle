@@ -31,6 +31,9 @@ dependencies {
 	implementation "org.xerial:sqlite-jdbc:${project.sqlite_version}"
 	include "org.xerial:sqlite-jdbc:${project.sqlite_version}"
 
+	implementation "org.json:json:${project.json_version}"
+	include "org.json:json:${project.json_version}"
+
 	modApi("com.github.RedstoneParadox:OakTree:${project.oak_tree_version}") {
         exclude group: 'net.fabricmc.fabric-api'
     }

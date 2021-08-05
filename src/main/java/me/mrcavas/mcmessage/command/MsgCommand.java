@@ -23,7 +23,6 @@ public class MsgCommand {
 
     public int execute(ServerCommandSource source, Collection<ServerPlayerEntity> targets, Text message) {
 
-
         return 1;
     }
 }
