@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "mcmessage",
+  "version": "${version}",
+
+  "name": "MCMessage",
+  "description": "yes",
+  "authors": [
+    "Mrcavas"
+  ],
+  "contact": {
+    "sources": "https://github.com/Mrcavas/MCMessage"
+  },
+
+  "license": "MIT",
+  "icon": "assets/mcmessage/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.mrcavas.mcmessage.Main"
+    ],
+    "client": [
+      "me.mrcavas.mcmessage.MainClient"
+    ],
+    "server": [
+      "me.mrcavas.mcmessage.MainServer"
+    ]
+  },
+  "mixins": [
+    "mcmessage.mixins.json"
+  ],
+
+  "depends": {
+    "fabric-key-binding-api-v1": "*",
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "java": ">=8"
+  }
+}
