@@ -1,9 +1,9 @@
-# Fabric Example Mod
+# Minecraft Messenger Mod
 
-## Setup
+## Use
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+This mod can be used on server and on client, however, you can use plugin version on server side.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This template is available under the MIT license.
