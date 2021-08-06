@@ -24,7 +24,7 @@ import java.util.UUID;
 public class Main implements ModInitializer {
 
     private File data;
-    public final ArrayList<UUID> withMod = new ArrayList<>();
+    public static ArrayList<UUID> withMod = new ArrayList<>();
 
     @Override
     public void onInitialize() {
