@@ -6,6 +6,10 @@
   "client": [
     "InGameHudMixin"
   ],
+  "server": [
+    "MessageCommandMixin",
+    "MessageCommandInvoker"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -17,12 +17,14 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class Main implements ModInitializer {
 
     private File data;
+    public final ArrayList<UUID> withMod = new ArrayList<>();
 
     @Override
     public void onInitialize() {
@@ -114,6 +116,7 @@ public class Main implements ModInitializer {
 
             if (serverUUID == null) server.close();
             else {
+                withMod.add(player.getUuid());
                 ServerPlayNetworking.send(player, new Identifier("mcmessage", "ok"), new PacketByteBuf(Unpooled.copiedBuffer(serverUUID.toString().getBytes(StandardCharsets.UTF_8))));
             }
         }));
