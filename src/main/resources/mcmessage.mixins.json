@@ -6,7 +6,7 @@
   "client": [
     "InGameHudMixin"
   ],
-  "server": [
+  "mixins": [
     "MessageCommandMixin",
     "MessageCommandInvoker"
   ],

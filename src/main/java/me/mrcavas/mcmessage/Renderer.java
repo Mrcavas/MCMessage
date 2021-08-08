@@ -4,10 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.KeybindText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.StringVisitable;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 
@@ -32,7 +29,7 @@ public class Renderer {
                 textureManager.bindTexture(new Identifier("mcmessage", "textures/gui/notification.png"));
                 DrawableHelper.drawTexture(matrices, scaledWidth - 192 - 8, 8, 0, 0, 192, 96, 192, 96);
                 client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.says_you", plName), scaledWidth - 192 - 8 + 19, 8 + 8, 0);
-                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.open", new KeybindText("key.mcmessage.open")), scaledWidth - 192 - 8 + 86, 8 + 80, 0);
+                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.open", new KeybindText("key.mcmessage.open")).getString(), scaledWidth - 192 - 8 + 86, 8 + 80, 0);
                 try {
                     textureManager.bindTexture(client.getNetworkHandler().getPlayerListEntry(plName).getSkinTexture());
                 } catch (NullPointerException ignored) {}

@@ -12,6 +12,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -29,26 +30,25 @@ public class MsgCommand {
                                         execute(ctx.getSource().getPlayer(), EntityArgumentType.getPlayers(ctx, "targets"), MessageArgumentType.getMessage(ctx, "message"))))));
     }
 
-    public int execute(ServerPlayerEntity player, Collection<ServerPlayerEntity> targets, Text message){
+    public int execute(ServerPlayerEntity player, Collection<ServerPlayerEntity> targets, Text message) {
         targets.forEach(target -> {
             if (Main.withMod.contains(target.getUuid())) {
                 JSONObject from = new JSONObject();
 
-                from.put("from", player.getName());
+                from.put("from", player.getName().getString());
                 from.put("message", message.getString());
 
                 if (Main.withMod.contains(player.getUuid())) {
                     JSONObject to = new JSONObject();
 
-                    to.put("to", target.getName());
+                    to.put("to", target.getName().getString());
                     to.put("message", message.getString());
 
                     ServerPlayNetworking.send(player, new Identifier("mcmessage", "my_msg"), new PacketByteBuf(Unpooled.copiedBuffer(to.toString().getBytes(StandardCharsets.UTF_8))));
                 }
-
                 ServerPlayNetworking.send(target, new Identifier("mcmessage", "msg"), new PacketByteBuf(Unpooled.copiedBuffer(from.toString().getBytes(StandardCharsets.UTF_8))));
             } else {
-                player.server.getCommandManager().execute(player.getCommandSource(), "w " + target + " " + message.getString());
+                player.server.getCommandManager().execute(player.getCommandSource(), "minecraft:msg " + target.getName().getString() + " " + message.getString());
             }
         });
 
