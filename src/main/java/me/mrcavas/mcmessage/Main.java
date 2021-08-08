@@ -2,13 +2,10 @@ package me.mrcavas.mcmessage;
 
 import io.netty.buffer.Unpooled;
 import me.mrcavas.mcmessage.command.MsgCommand;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.WorldSavePath;
 
@@ -29,9 +26,8 @@ public class Main implements ModInitializer {
     @Override
     public void onInitialize() {
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
-            new MsgCommand().register(dispatcher);
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
+            new MsgCommand().register(dispatcher));
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "ok"), ((server, player, handler, buf, responseSender) -> {
             UUID serverUUID = null;
