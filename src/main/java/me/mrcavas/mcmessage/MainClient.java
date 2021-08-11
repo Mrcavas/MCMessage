@@ -1,10 +1,10 @@
 package me.mrcavas.mcmessage;
 
 import me.mrcavas.mcmessage.drawable.Notification;
+import me.mrcavas.mcmessage.gui.MessagesScreen;
 import org.json.JSONException;
 import org.json.JSONObject;
 import io.netty.buffer.Unpooled;
-import me.mrcavas.mcmessage.gui.TestScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -32,7 +32,7 @@ public class MainClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (open.wasPressed()) {
-                MinecraftClient.getInstance().openScreen(new TestScreen());
+                MinecraftClient.getInstance().openScreen(new MessagesScreen());
             }
         });
 

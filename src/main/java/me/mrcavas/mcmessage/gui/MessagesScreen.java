@@ -9,11 +9,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-public class TestScreen extends Screen {
+public class MessagesScreen extends Screen {
 	private final ControlGui gui;
 
-	public TestScreen() {
-		super(new LiteralText("TestScreen"));
+	public MessagesScreen() {
+		super(new LiteralText("MessagesScreen"));
 		this.gui = new ControlGui(this, testOne());
 		this.gui.applyTheme(Theme.vanilla());
 	}
@@ -45,12 +45,12 @@ public class TestScreen extends Screen {
 								.children(4, this::itemLabel)
 								.displayCount(4)
 				)
-				.size(40, 20)
+				.size(120, 20)
 				.id("button")
 				.dropdownDirection(Direction2D.LEFT)
 				.anchor(Anchor.CENTER);
 
-		leftDropdown.onTick((controlGui, leftDropdownControl) -> leftDropdownControl.dropdownDirection(Direction2D.RIGHT));
+		leftDropdown.onTick((controlGui, leftDropdownControl) -> leftDropdownControl.dropdownDirection(Direction2D.LEFT));
 
 		DropdownControl rightDropdown = new DropdownControl()
 				.dropdown(
@@ -91,9 +91,9 @@ public class TestScreen extends Screen {
 
 		return new LabelControl()
 				.size(60, 20)
-				.text("Item No. " + (number + 1))
+				.text("номер " + (number + 1))
 				.anchor(Anchor.CENTER)
-				.shadow(true);
+				.shadow(false);
 
 
 	}

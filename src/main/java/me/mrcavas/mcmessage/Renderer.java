@@ -10,11 +10,10 @@ import java.util.Iterator;
 public class Renderer {
 
     private static int ticks;
-    private static final ArrayList<Drawable> drawables = new ArrayList<>();
+    public static final ArrayList<Drawable> drawables = new ArrayList<>();
 
     public static void render(MinecraftClient client, MatrixStack matrices, int ticks) {
         Renderer.ticks = ticks;
-        System.out.println("tick " + ticks);
 
         int scaledWidth = client.getWindow().getScaledWidth();
 
@@ -27,7 +26,6 @@ public class Renderer {
                 currentHeight += drawable.getHeight() + 8;
             } else {
                 iter.remove();
-                System.out.println("stop - " + new Date().getTime());
             }
         }
     }
@@ -35,6 +33,5 @@ public class Renderer {
     public static void draw(Drawable drawable) {
         drawable.activate(ticks);
         drawables.add(drawable);
-        System.out.println("start- " + new Date().getTime());
     }
 }
