@@ -28,11 +28,12 @@ public class Renderer {
 
                 textureManager.bindTexture(new Identifier("mcmessage", "textures/gui/notification.png"));
                 DrawableHelper.drawTexture(matrices, scaledWidth - 192 - 8, 8, 0, 0, 192, 96, 192, 96);
-                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.says_you", plName), scaledWidth - 192 - 8 + 19, 8 + 8, 0);
+                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.says_you", plName), scaledWidth - 192 - 8 + 21, 8 + 8, 0);
                 client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.open", new KeybindText("key.mcmessage.open")).getString(), scaledWidth - 192 - 8 + 86, 8 + 80, 0);
                 try {
                     textureManager.bindTexture(client.getNetworkHandler().getPlayerListEntry(plName).getSkinTexture());
-                } catch (NullPointerException ignored) {}
+                    DrawableHelper.drawTexture(matrices, scaledWidth - 192, 16, 8, 8, 8, 8, 64, 64);
+                } catch (NullPointerException e) {e.printStackTrace();}
 
                 List<OrderedText> lines = client.textRenderer.wrapLines(StringVisitable.plain(notificationText), 168);
 

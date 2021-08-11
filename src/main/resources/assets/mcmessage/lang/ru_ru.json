@@ -1,5 +1,7 @@
 {
   "key.mcmessage.open": "Открыть Меню Сообщений",
-  "text.mcmessage.says_you": "%s говорит Вам:",
-  "text.mcmessage.open": "%s, чтобы открыть"
+  "text.mcmessage.says_you": "%s пишет Вам:",
+  "text.mcmessage.open": "%s, чтобы открыть",
+  "category.mcmessage.main": "MCMessage",
+  "text.mcmessage.outgoing_msg": "Вы написали %s: %s"
 }

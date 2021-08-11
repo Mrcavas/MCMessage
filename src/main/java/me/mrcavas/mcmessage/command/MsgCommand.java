@@ -11,6 +11,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -44,9 +46,12 @@ public class MsgCommand {
                     to.put("to", target.getName().getString());
                     to.put("message", message.getString());
 
-                    ServerPlayNetworking.send(player, new Identifier("mcmessage", "my_msg"), new PacketByteBuf(Unpooled.copiedBuffer(to.toString().getBytes(StandardCharsets.UTF_8))));
+                    ServerPlayNetworking.send(player, new Identifier("mcmessage", "outgoing_msg"), new PacketByteBuf(Unpooled.copiedBuffer(to.toString().getBytes(StandardCharsets.UTF_8))));
+                    player.sendSystemMessage((new TranslatableText("text.mcmessage.outgoing_msg", target.getDisplayName().getString(), message)).formatted(Formatting.GRAY, Formatting.ITALIC), player.getUuid());
+                } else {
+                    player.sendSystemMessage((new TranslatableText("commands.message.display.outgoing", target.getDisplayName().getString(), message)).formatted(Formatting.GRAY, Formatting.ITALIC), player.getUuid());
                 }
-                ServerPlayNetworking.send(target, new Identifier("mcmessage", "msg"), new PacketByteBuf(Unpooled.copiedBuffer(from.toString().getBytes(StandardCharsets.UTF_8))));
+                ServerPlayNetworking.send(target, new Identifier("mcmessage", "incoming_msg"), new PacketByteBuf(Unpooled.copiedBuffer(from.toString().getBytes(StandardCharsets.UTF_8))));
             } else {
                 player.server.getCommandManager().execute(player.getCommandSource(), "minecraft:msg " + target.getName().getString() + " " + message.getString());
             }

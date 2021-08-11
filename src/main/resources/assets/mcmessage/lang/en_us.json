@@ -2,5 +2,6 @@
   "category.mcmessage.main": "MCMessage",
   "key.mcmessage.open": "Open Messages Menu",
   "text.mcmessage.open": "Press %s to open",
-  "text.mcmessage.says_you": "%s says you:"
+  "text.mcmessage.says_you": "%s says you:",
+  "text.mcmessage.outgoing_msg": "You messaged %s: %s"
 }

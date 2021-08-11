@@ -45,7 +45,7 @@ public class MainClient implements ClientModInitializer {
             Database.setServerUUID(UUID.fromString(message));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "msg"), (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "incoming_msg"), (client, handler, buf, responseSender) -> {
             String message = buf.toString(StandardCharsets.UTF_8);
 
             try {
@@ -60,7 +60,7 @@ public class MainClient implements ClientModInitializer {
             }
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "my_msg"), (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "outgoing_msg"), (client, handler, buf, responseSender) -> {
             String message = buf.toString(StandardCharsets.UTF_8);
 
             try {
