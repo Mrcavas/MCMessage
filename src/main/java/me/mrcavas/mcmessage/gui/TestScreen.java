@@ -8,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 
 public class TestScreen extends Screen {
 	private final ControlGui gui;
@@ -51,9 +50,7 @@ public class TestScreen extends Screen {
 				.dropdownDirection(Direction2D.LEFT)
 				.anchor(Anchor.CENTER);
 
-		leftDropdown.onTick((controlGui, leftDropdownControl) -> {
-			leftDropdownControl.dropdownDirection(Direction2D.RIGHT);
-		});
+		leftDropdown.onTick((controlGui, leftDropdownControl) -> leftDropdownControl.dropdownDirection(Direction2D.RIGHT));
 
 		DropdownControl rightDropdown = new DropdownControl()
 				.dropdown(

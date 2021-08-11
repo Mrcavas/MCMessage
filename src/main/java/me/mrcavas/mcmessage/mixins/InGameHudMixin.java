@@ -18,6 +18,6 @@ public class InGameHudMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;F)V", at = @At("HEAD"))
     private void render(MatrixStack matrices, float tickDelta, CallbackInfo info) {
-        new Renderer().render(client, matrices, ticks);
+        Renderer.render(client, matrices, ticks);
     }
 }

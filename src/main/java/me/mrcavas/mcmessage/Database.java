@@ -4,9 +4,6 @@ import net.minecraft.client.MinecraftClient;
 
 //import org.sqlite.JDBC;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import java.io.File;
 import java.sql.*;
 import java.util.UUID;
@@ -65,21 +62,23 @@ public class Database {
         }
     }
 
-    public static void removePlayer(String name) {
-        try {
-
-            Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-
-            statement.executeUpdate("DELETE FROM 'players' WHERE `pname` = '" + name + "';");
-
-            statement.close();
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+// --Commented out by Inspection START (11.08.2021 23:24):
+//    public static void removePlayer(String name) {
+//        try {
+//
+//            Connection connection = getConnection();
+//            Statement statement = connection.createStatement();
+//
+//            statement.executeUpdate("DELETE FROM 'players' WHERE `pname` = '" + name + "';");
+//
+//            statement.close();
+//            connection.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+// --Commented out by Inspection STOP (11.08.2021 23:24)
 
     public static boolean checkPlayer(String name) {
         try {

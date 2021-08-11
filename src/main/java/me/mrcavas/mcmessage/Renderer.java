@@ -1,61 +1,40 @@
 package me.mrcavas.mcmessage;
 
+import me.mrcavas.mcmessage.drawable.Drawable;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.*;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
-
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 public class Renderer {
 
     private static int ticks;
-    private static int notificationOnTicks = -1;
-    private static String notificationText;
-    private static String plName;
+    private static final ArrayList<Drawable> drawables = new ArrayList<>();
 
-    public void render(MinecraftClient client, MatrixStack matrices, int delta) {
-        ticks = delta;
+    public static void render(MinecraftClient client, MatrixStack matrices, int ticks) {
+        Renderer.ticks = ticks;
+        System.out.println("tick " + ticks);
 
-        if (notificationOnTicks != -1) {
-            if (delta <= notificationOnTicks) {
-                TextureManager textureManager = client.getTextureManager();
-                int scaledWidth = client.getWindow().getScaledWidth();
-                int scaledHeight = client.getWindow().getScaledHeight();
+        int scaledWidth = client.getWindow().getScaledWidth();
 
-                textureManager.bindTexture(new Identifier("mcmessage", "textures/gui/notification.png"));
-                DrawableHelper.drawTexture(matrices, scaledWidth - 192 - 8, 8, 0, 0, 192, 96, 192, 96);
-                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.says_you", plName), scaledWidth - 192 - 8 + 21, 8 + 8, 0);
-                client.textRenderer.draw(matrices, new TranslatableText("text.mcmessage.open", new KeybindText("key.mcmessage.open")).getString(), scaledWidth - 192 - 8 + 86, 8 + 80, 0);
-                try {
-                    textureManager.bindTexture(client.getNetworkHandler().getPlayerListEntry(plName).getSkinTexture());
-                    DrawableHelper.drawTexture(matrices, scaledWidth - 192, 16, 8, 8, 8, 8, 64, 64);
-                } catch (NullPointerException e) {e.printStackTrace();}
+        int currentHeight = 8;
 
-                List<OrderedText> lines = client.textRenderer.wrapLines(StringVisitable.plain(notificationText), 168);
-
-                for (int line = 0; line < lines.size(); line++) {
-                    int y = 8 + 26 + (9 * line);
-
-                    if (line == 4 && lines.size() > 5) {
-                        OrderedText last = OrderedText.concat(lines.get(line), Language.getInstance().reorder(StringVisitable.plain("...")));
-                        client.textRenderer.draw(matrices, last, scaledWidth - 192 - 8 + 12, y, 13027014);
-                        break;
-                    }
-
-                    client.textRenderer.draw(matrices, lines.get(line), scaledWidth - 192 - 8 + 12, y, 13027014);
-                }
-
-            } else notificationOnTicks = -1;
+        for (Iterator<Drawable> iter = drawables.iterator(); iter.hasNext();) {
+            Drawable drawable = iter.next();
+            if (drawable.toDraw(ticks)) {
+                drawable.render(client, matrices, scaledWidth - drawable.getWidth() - 8, currentHeight);
+                currentHeight += drawable.getHeight() + 8;
+            } else {
+                iter.remove();
+                System.out.println("stop - " + new Date().getTime());
+            }
         }
     }
 
-    public void drawNotification(String message, int duration, String plName) {
-        notificationText = message;
-        notificationOnTicks = ticks + duration;
-        Renderer.plName = plName;
+    public static void draw(Drawable drawable) {
+        drawable.activate(ticks);
+        drawables.add(drawable);
+        System.out.println("start- " + new Date().getTime());
     }
 }

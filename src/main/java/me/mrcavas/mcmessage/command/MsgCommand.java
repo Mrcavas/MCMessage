@@ -1,7 +1,6 @@
 package me.mrcavas.mcmessage.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.netty.buffer.Unpooled;
 import me.mrcavas.mcmessage.Main;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,7 +13,6 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -47,7 +45,7 @@ public class MsgCommand {
                     to.put("message", message.getString());
 
                     ServerPlayNetworking.send(player, new Identifier("mcmessage", "outgoing_msg"), new PacketByteBuf(Unpooled.copiedBuffer(to.toString().getBytes(StandardCharsets.UTF_8))));
-                    player.sendSystemMessage((new TranslatableText("text.mcmessage.outgoing_msg", target.getDisplayName().getString(), message)).formatted(Formatting.GRAY, Formatting.ITALIC), player.getUuid());
+                    player.sendSystemMessage((new TranslatableText("text.mcmessage.outgoing_msg", target.getDisplayName().getString(), message)).formatted(Formatting.BLUE, Formatting.ITALIC), player.getUuid());
                 } else {
                     player.sendSystemMessage((new TranslatableText("commands.message.display.outgoing", target.getDisplayName().getString(), message)).formatted(Formatting.GRAY, Formatting.ITALIC), player.getUuid());
                 }

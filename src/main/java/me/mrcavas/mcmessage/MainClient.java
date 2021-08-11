@@ -1,5 +1,6 @@
 package me.mrcavas.mcmessage;
 
+import me.mrcavas.mcmessage.drawable.Notification;
 import org.json.JSONException;
 import org.json.JSONObject;
 import io.netty.buffer.Unpooled;
@@ -35,13 +36,10 @@ public class MainClient implements ClientModInitializer {
             }
         });
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            ClientPlayNetworking.send(new Identifier("mcmessage", "ok"), new PacketByteBuf(Unpooled.copiedBuffer("ok".getBytes(StandardCharsets.UTF_8))));
-        });
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ClientPlayNetworking.send(new Identifier("mcmessage", "ok"), new PacketByteBuf(Unpooled.copiedBuffer("ok".getBytes(StandardCharsets.UTF_8)))));
 
         ClientPlayNetworking.registerGlobalReceiver(new Identifier("mcmessage", "ok"), (client, handler, buf, responseSender) -> {
             String message = buf.toString(StandardCharsets.UTF_8);
-            client.player.sendChatMessage(message);
             Database.setServerUUID(UUID.fromString(message));
         });
 
@@ -52,7 +50,8 @@ public class MainClient implements ClientModInitializer {
                 JSONObject obj = new JSONObject(message);
 
                 client.execute(() -> {
-                    new Renderer().drawNotification(obj.getString("message"), 200, obj.getString("from"));
+//                    new Renderer().drawNotification(obj.getString("message"), 200, obj.getString("from"));
+                    Renderer.draw(new Notification(obj.getString("from"), 200, obj.getString("message")));
                     Database.addMessage(obj.getString("from"), obj.getString("message"), false);
                 });
             } catch (JSONException e) {
@@ -66,9 +65,7 @@ public class MainClient implements ClientModInitializer {
             try {
                 JSONObject obj = new JSONObject(message);
 
-                client.execute(() -> {
-                    Database.addMessage(obj.getString("to"), obj.getString("message"), true);
-                });
+                client.execute(() -> Database.addMessage(obj.getString("to"), obj.getString("message"), true));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
