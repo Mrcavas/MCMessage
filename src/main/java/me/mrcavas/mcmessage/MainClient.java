@@ -1,5 +1,6 @@
 package me.mrcavas.mcmessage;
 
+import me.mrcavas.mcmessage.db.Database;
 import me.mrcavas.mcmessage.drawable.Notification;
 import me.mrcavas.mcmessage.gui.MessagesScreen;
 import org.json.JSONException;
@@ -26,6 +27,12 @@ public class MainClient implements ClientModInitializer {
             "category.mcmessage.main"
         ));
 
+    private static final KeyBinding dbinit = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.mcmessage.dbinit",
+            GLFW.GLFW_KEY_I,
+            "category.mcmessage.main"
+        ));
+
     @Override
     public void onInitializeClient() {
         Database.init();
@@ -34,7 +41,13 @@ public class MainClient implements ClientModInitializer {
             while (open.wasPressed()) {
                 MinecraftClient.getInstance().openScreen(new MessagesScreen());
             }
+            while (dbinit.wasPressed()) {
+                Database.init();
+                MessagesScreen.gui.init();
+            }
         });
+
+
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ClientPlayNetworking.send(new Identifier("mcmessage", "ok"), new PacketByteBuf(Unpooled.copiedBuffer("ok".getBytes(StandardCharsets.UTF_8)))));
 
